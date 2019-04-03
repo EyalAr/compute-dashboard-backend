@@ -1,3 +1,4 @@
+const log = require('debug')('app:auth:setup');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -7,6 +8,7 @@ const users = require('../conf/users.json');
 
 const { jwtSecret, jwtHeader } = authConf;
 
+log('setting up local strategy for passport');
 passport.use('login', new LocalStrategy(
   function(username, password, done) {
     const user = users.find(user => {
@@ -16,6 +18,7 @@ passport.use('login', new LocalStrategy(
   }
 ));
 
+log('setting up jwt strategy for passport');
 passport.use('verify', new JwtStrategy(
   {
     secretOrKey: jwtSecret,
@@ -29,5 +32,6 @@ passport.use('verify', new JwtStrategy(
 ));
 
 module.exports = server => {
+  log('initialising passport as middleware');
   server.use(passport.initialize());
 };

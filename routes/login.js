@@ -1,9 +1,11 @@
+const log = require('debug')('app:routes:login');
 const passport = require('passport');
 const HttpStatus = require('http-status-codes');
 const createJwt = require('../auth/createJwt');
 const { jwtHeader } = require('../conf/auth.json');
 
 module.exports = server => {
+  log('registering /login route')
   server.post(
     '/login',
     passport.authenticate('login', { session: false }),

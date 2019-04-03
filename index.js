@@ -1,4 +1,6 @@
-const port = process.env.PORT || 8080;
+const log = require('debug')('app:root');
+
+const port = process.env.PORT || 8081;
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -8,8 +10,8 @@ server.use(bodyParser.json());
 
 require('./auth/setup')(server);
 require('./routes/login')(server);
-require('./routes/something')(server);
+require('./routes/ec2instances')(server);
 
 server.listen(port, function() {
-  console.log('listening at %s', port);
+  log('listening at %s', port);
 });
