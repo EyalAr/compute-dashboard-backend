@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 if (process.env.MOCK) {
   log("serving mock data");
-  require('./test/setupMocks');
+  require('./setupMocks');
 }
 
 const server = express();
