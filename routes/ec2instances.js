@@ -10,7 +10,9 @@ module.exports = server => {
     (req, res) => {
       log('request params %o', req.query);
       const [ from, to ] = JSON.parse(req.query.range);
-      aws.getEc2Instances(from, to).then(data => {
+      const [ sortBy, sortDir ] = JSON.parse(req.query.sort);
+      const sortDesc = sortDir === "DESC";
+      aws.getEc2Instances(from, to, sortBy, sortDesc).then(data => {
         res.send(data);
         res.end();
       }).catch(err => {

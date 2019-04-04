@@ -11,6 +11,7 @@ module.exports = server => {
     passport.authenticate('login', { session: false }),
     (req, res) => {
       const { user } = req;
+      log('Creating JWT for %s', user.id);
       const jwt = createJwt(user);
       res.set(jwtHeader, jwt);
       res.status(HttpStatus.NO_CONTENT);

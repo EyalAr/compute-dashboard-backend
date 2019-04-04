@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "DEBUG=* nodemon --inspect index.js",
-    "build-docker": "docker build . -t compute-dashboard-backend",
-    "docker": "docker run --rm -d -p 8081:80 -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION compute-dashboard-backend",
-    "docker-debug": "docker run --rm -p 8081:80 -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION -e DEBUG=* compute-dashboard-backend",
+    "docker-build": "docker build . -t compute-dashboard-backend",
+    "docker-network": "docker network create --driver bridge compute-dashboard || true",
+    "docker": "docker run --rm -d -p 8081:80 --network compute-dashboard -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION --name compute-dashboard-backend compute-dashboard-backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,9 +30,7 @@
     "debug": "^4.1.1",
     "express": "^4.16.4",
     "http-status-codes": "^1.3.2",
-    "install": "^0.12.2",
     "jsonwebtoken": "^8.5.1",
-    "npm": "^6.9.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
