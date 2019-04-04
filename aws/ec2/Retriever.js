@@ -1,4 +1,4 @@
-const MAX_RESULTS = 100;
+const MAX_RESULTS = 999;
 const describeInstances = require('./describeInstances');
 const extractInstanceData = require('./extractInstanceData');
 const log = require('debug')('app:aws:ec2:Retriever');
@@ -29,15 +29,12 @@ class Retriever {
   /**
    * Makes sure results are available in the cache up to index 'to'.
    */
-  ensure (to) {
+  ensure () {
     return new Promise((resolve, reject) => {
-      if (
-        this.cachedInstances[to] ||
-        (this.cachedInstances.length && !this.nextToken)
-      ) {
+      if (this.cachedInstances.length && !this.nextToken) {
         resolve();
       } else {
-        log('Instance %d not in cache, fetching next %d results from AWS', to, MAX_RESULTS);
+        log('Fetching next batch of instances');
         describeInstances({
           MaxResults: MAX_RESULTS,
           NextToken: this.nextToken
@@ -49,15 +46,19 @@ class Retriever {
           });
           this.nextToken = data.NextToken;
         })
-        .then(() => this.ensure(to))
+        .then(() => this.ensure())
         .then(() => this.sort())
         .then(resolve, reject);
       }
     });
   };
+
+  getTotal () {
+    return this.cachedInstances.length;
+  }
   
   get (from, to) {
-    return this.ensure(to).then(() => {
+    return this.ensure().then(() => {
       return this.cachedInstances.slice(from, to + 1);
     });
   };
