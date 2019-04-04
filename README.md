@@ -91,7 +91,7 @@ Now you can send requests to `http://localhost:8081`.
 The server is an Express app which, for the sake of this exercise, provides
 only two endpoints:
 
-**`POST /login`**
+#### `POST /login`
 
 Request body:
 
@@ -108,7 +108,7 @@ Response:
   all subsequent requests (see below).
 - `401`: Unauthorised. Login failed.
 
-**`GET /ec2-instances?range=[i,j]&sort=[field,order]`**
+#### `GET /ec2-instances?range=[i,j]&sort=[field,order]`
 
 Request query params:
 
