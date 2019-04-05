@@ -3,11 +3,11 @@
  * payload.
  */
 module.exports = i => ({
-  name: (i.Tags.filter(t => t.Key = 'Name')[0] || {}).Value,
+  name: (i.Tags.filter(t => t.Key === 'Name')[0] || {}).Value,
   id: i.InstanceId,
   type: i.InstanceType,
   state: i.State.Name,
   az: i.Placement.AvailabilityZone,
   public_ip: i.PublicIpAddress,
-  private_ip: i.PrivateIpAddress
+  private_ip: i.PrivateIpAddress,
 });

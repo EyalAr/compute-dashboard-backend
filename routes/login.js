@@ -4,8 +4,8 @@ const HttpStatus = require('http-status-codes');
 const createJwt = require('../auth/createJwt');
 const { jwtHeader } = require('../conf/auth.json');
 
-module.exports = server => {
-  log('registering /login route')
+module.exports = (server) => {
+  log('registering /login route');
   server.post(
     '/login',
     passport.authenticate('login', { session: false }),
@@ -16,6 +16,6 @@ module.exports = server => {
       res.set(jwtHeader, jwt);
       res.status(HttpStatus.NO_CONTENT);
       res.end();
-    }
+    },
   );
 };

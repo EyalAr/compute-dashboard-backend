@@ -1,22 +1,22 @@
-const AWS = require('aws-sdk-mock')
-const JSF = require('json-schema-faker')
-const describeInstancesSchema = require('./mocks/describeInstancesSchema.json')
+const AWS = require('aws-sdk-mock');
+const JSF = require('json-schema-faker');
+const describeInstancesSchema = require('./mocks/describeInstancesSchema');
 
-const resetPages = () => 1 + Math.ceil(Math.random() * 3)
+const resetPages = () => 1 + Math.ceil(Math.random() * 3);
 
-var pages = resetPages()
+let pages = resetPages();
 
 AWS.mock('EC2', 'describeInstances', (params, cb) => {
-  JSF.resolve(describeInstancesSchema).then(res => {
-    var nextToken = "yes";
-    pages--;
+  JSF.resolve(describeInstancesSchema).then((res) => {
+    let nextToken = 'yes';
+    pages -= 1;
     if (!pages) {
       nextToken = null;
       pages = resetPages();
     }
     cb(null, {
       ...res,
-      NextToken: nextToken
-    })
-  })
-})
+      NextToken: nextToken,
+    });
+  });
+});

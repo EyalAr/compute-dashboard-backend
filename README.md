@@ -83,7 +83,7 @@ Now you can send requests to `http://localhost:8081`.
 - `AWS_ACCESS_KEY_ID` - AWS Access key ID
 - `AWS_SECRET_ACCESS_KEY` - AWS Secret access key
 - `AWS_REGION` - AWS region
-- `MOCK` - set to `true` for the server to generate mock data
+- `MOCK` - set to `true` for the server to generate mock data (see below)
 
 ## Design
 
@@ -146,3 +146,11 @@ adding to your `docker run` command:
 ```sh
 --mount type=bind,src=$(pwd)/my-users.json,dst=/home/node/app/conf/users.json,readonly
 ```
+
+### Mock data
+
+The server can generate fake AWS responses (which means you can run it offline).
+This is toggled on if the `MOCK` environment variabels is set.
+
+Bear in mind that new mocks are generated **for each request**, so whilst
+requests with pagination still work, they would not be consistent.

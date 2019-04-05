@@ -1,7 +1,7 @@
 const MAX_RESULTS = 999;
+const log = require('debug')('app:aws:ec2:Retriever');
 const describeInstances = require('./describeInstances');
 const extractInstanceData = require('./extractInstanceData');
-const log = require('debug')('app:aws:ec2:Retriever');
 
 /**
  * A helper class to retrieve paginated & sorted results from AWS.
@@ -11,26 +11,26 @@ const log = require('debug')('app:aws:ec2:Retriever');
  * previous request.
  */
 class Retriever {
-  constructor (sortBy, sortDesc) {
+  constructor(sortBy, sortDesc) {
     this.sortBy = sortBy;
     this.sortVal = sortDesc ? -1 : 1;
     this.cachedInstances = [];
-    this.nextToken;
+    this.nextToken = null;
     this.moreResults = true;
   }
 
-  sort () {
+  sort() {
     this.cachedInstances.sort((i1, i2) => {
       const prop1 = i1[this.sortBy];
       const prop2 = i2[this.sortBy];
       return prop1 > prop2 ? this.sortVal : -this.sortVal;
-    })
+    });
   }
 
   /**
    * Makes sure results are available in the cache up to index 'to'.
    */
-  ensure () {
+  ensure() {
     return new Promise((resolve, reject) => {
       if (!this.moreResults) {
         resolve();
@@ -38,32 +38,30 @@ class Retriever {
         log('Fetching next batch of instances');
         describeInstances({
           MaxResults: MAX_RESULTS,
-          NextToken: this.nextToken
-        }).then(data => {
-          data.Reservations.forEach(r => {
-            r.Instances.forEach(i => {
+          NextToken: this.nextToken,
+        }).then((data) => {
+          data.Reservations.forEach((r) => {
+            r.Instances.forEach((i) => {
               this.cachedInstances.push(extractInstanceData(i));
             });
           });
           this.nextToken = data.NextToken;
           this.moreResults = !!this.nextToken;
         })
-        .then(() => this.ensure())
-        .then(() => this.sort())
-        .then(resolve, reject);
+          .then(() => this.ensure())
+          .then(() => this.sort())
+          .then(resolve, reject);
       }
     });
-  };
+  }
 
-  getTotal () {
+  getTotal() {
     return this.cachedInstances.length;
   }
-  
-  get (from, to) {
-    return this.ensure().then(() => {
-      return this.cachedInstances.slice(from, to + 1);
-    });
-  };
-};
+
+  get(from, to) {
+    return this.ensure().then(() => this.cachedInstances.slice(from, to + 1));
+  }
+}
 
 module.exports = Retriever;
