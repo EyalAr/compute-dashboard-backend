@@ -6,18 +6,24 @@ const createJwt = require('../../auth/createJwt')
 const { jwtHeader } = require('../../conf/auth.json')
 const users = require('../../conf/users.json')
 const validJwt = createJwt(users[0])
-
-require('../../setupMocks')
+const AWS = require('aws-sdk-mock')
+const JSF = require('json-schema-faker')
+const describeInstancesSchema = require('../../mocks/describeInstancesSchema.json')
 
 describe('routes/ec2instances', () => {
   var requester
 
   before(() => {
     requester = chai.request(server).keepOpen()
+    AWS.mock('EC2', 'describeInstances', (params, cb) => {
+      // payload is not important, we're just checking http return status
+      JSF.resolve(describeInstancesSchema).then(payload => cb(null, payload))
+    })
   })
 
   after(() => {
     requester.close()
+    AWS.restore()
   })
 
   describe('GET', () => {
