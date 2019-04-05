@@ -16,7 +16,8 @@
           "items": {
             "Key": "Name",
             "Value": {
-              "type": "string"
+              "type": "string",
+              "faker": "lorem.word"
             }
           }
         },

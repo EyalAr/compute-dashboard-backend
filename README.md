@@ -83,6 +83,7 @@ Now you can send requests to `http://localhost:8081`.
 - `AWS_ACCESS_KEY_ID` - AWS Access key ID
 - `AWS_SECRET_ACCESS_KEY` - AWS Secret access key
 - `AWS_REGION` - AWS region
+- `MOCK` - set to `true` for the server to generate mock data
 
 ## Design
 

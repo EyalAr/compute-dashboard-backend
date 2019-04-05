@@ -16,6 +16,7 @@ class Retriever {
     this.sortVal = sortDesc ? -1 : 1;
     this.cachedInstances = [];
     this.nextToken;
+    this.moreResults = true;
   }
 
   sort () {
@@ -31,7 +32,7 @@ class Retriever {
    */
   ensure () {
     return new Promise((resolve, reject) => {
-      if (this.cachedInstances.length && !this.nextToken) {
+      if (!this.moreResults) {
         resolve();
       } else {
         log('Fetching next batch of instances');
@@ -45,6 +46,7 @@ class Retriever {
             });
           });
           this.nextToken = data.NextToken;
+          this.moreResults = !!this.nextToken;
         })
         .then(() => this.ensure())
         .then(() => this.sort())
