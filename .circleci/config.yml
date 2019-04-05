@@ -4,6 +4,8 @@ jobs:
     docker:
       - image: circleci/node:7.10
     working_directory: ~/repo
+    environment:
+      MOCK=true
     steps:
       - checkout
       - restore_cache:
