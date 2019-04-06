@@ -17,6 +17,8 @@ AWS_REGION=XYZ \            # set AWS region
 npm run docker              # run server
 ```
 
+**Note: You must have Node 8 or higher**
+
 ## Usage
 
 Install dependencies (do this before each of the following):
@@ -154,3 +156,16 @@ This is toggled on if the `MOCK` environment variabels is set.
 
 Bear in mind that new mocks are generated **for each request**, so whilst
 requests with pagination still work, they would not be consistent.
+
+## Testing
+
+All unit tests are run with Mocha.
+
+Code coverage is reported to the console and to `./.nyc_output`.
+
+CircleCI automatically runs tests on every commit (when pushed to Github).
+
+For E2E tests see [compute-dashboard-e2e](https://github.com/EyalAr/compute-dashboard-e2e)
+project.
+
+Run tests with `npm run test`.
