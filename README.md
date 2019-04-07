@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/EyalAr/compute-dashboard-backend.svg?style=svg)](https://circleci.com/gh/EyalAr/compute-dashboard-backend)
+
 # Compute Dashboard Backend
 
 The dashboard backend is a REST API which provides functionality to interact
