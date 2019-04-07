@@ -44,7 +44,7 @@ npm start
 # PORT=8081 npm start
 ```
 
-### Using Docker
+### Using Docker (optional)
 
 Both the frontend and the backend are designed to run in Docker containers.
 They are built independently, but in order for them to communicate from within
