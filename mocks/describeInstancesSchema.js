@@ -27,7 +27,7 @@ module.exports = {
           },
           InstanceId: {
             type: 'string',
-            faker: 'lorem.word',
+            faker: 'random.uuid',
           },
           InstanceType: {
             enum: ['a1.medium', 'a1.large', 'a1.xlarge', 'a1.2xlarge', 'a1.4xlarge'],
