@@ -19,4 +19,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run test
       - store_artifacts:
-          path: .nyc_output
+          path: .coverage

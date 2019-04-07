@@ -9,7 +9,7 @@
     "docker-build": "docker build . -t compute-dashboard-backend",
     "docker-network": "docker network create --driver bridge compute-dashboard || true",
     "docker": "docker run --rm -d -p 8081:80 --network compute-dashboard -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_REGION --name compute-dashboard-backend compute-dashboard-backend",
-    "test": "nyc mocha",
+    "test": "nyc --reporter=html --reporter=text --report-dir .coverage mocha",
     "lint": "eslint ./"
   },
   "engines": {
